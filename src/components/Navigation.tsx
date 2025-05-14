@@ -1,9 +1,13 @@
-import Link from "next/link"
+import { getCurrentUser } from '@/actions/auth'
+import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import { Bell, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 
-export function Navigation() {
+export default async function Navigation() {
+  const { user } = await getCurrentUser() || {}
+
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
       <div className="container flex h-16 items-center justify-between py-4">
