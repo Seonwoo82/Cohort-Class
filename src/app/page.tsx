@@ -1,99 +1,49 @@
-import { CourseCard } from "@/components/CourseCard"
-import { supabase } from "@/lib/supabase"
-import type { Database } from "@/types/supabase"
-import Image from "next/image"
+import Image from 'next/image'
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { Metadata } from 'next'
+import { Menu } from 'lucide-react'
 
-type ClassType = Database["public"]["Tables"]["class"]["Row"]
-
-function getSectionedClasses(classes: ClassType[]) {
-  const now = new Date()
-  const upcomingLive = classes.filter((c) => c.price === 0 && c.start_date && new Date(c.start_date) > now)
-  const premium = classes.filter((c) => c.price > 0 && c.end_date && new Date(c.end_date) > now)
-  const endedLive = classes.filter((c) => c.end_date && new Date(c.end_date) < now)
-  return { upcomingLive, premium, endedLive }
+export const metadata: Metadata = {
+  title: '버티컬러닝 - 1분만에 완성되는 나만의 강의 플랫폼',
+  description: '버티컬러닝에서 쉽고 빠르게 나만의 강의 플랫폼을 만들어보세요.',
 }
 
-export default async function Home() {
-  const { data: classes } = await supabase.from('class').select('*')
-  if (!classes) return <div>데이터를 불러올 수 없습니다.</div>
-  const { upcomingLive, premium, endedLive } = getSectionedClasses(classes)
-  const banner = upcomingLive[0] || classes[0]
-
+export default function LandingPage() {
   return (
-    <div className="bg-background">
-      {/* 상단 배너 */}
-      <section className="relative w-full h-[340px] bg-black flex items-center justify-center mb-10">
-        {banner?.thumbnail_img && (
-          <Image src="/banner.png" alt={banner.title} className="absolute inset-0 w-full h-full object-cover opacity-60" width={1000} height={340} />
-        )}
-        <div className="relative z-10 text-white text-center max-w-2xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold mb-2">{banner?.title}</h2>
-          <div className="mb-2">라이브 일정: {banner?.start_date ? new Date(banner.start_date).toLocaleString('ko-KR') : '-'}</div>
-          <button className="bg-primary px-6 py-2 rounded-full font-bold text-lg">무료특강 신청하기</button>
-        </div>
-      </section>
+    <main className="min-h-screen bg-white">
+      {/* Main Content */}
+      <div className="container mx-auto px-4 md:px-6 py-10 md:py-20">
+        <div className="flex flex-col md:flex-row items-center gap-10 md:gap-20">
+          {/* Text Container */}
+          <div className="flex flex-col gap-8 md:gap-16 w-full md:max-w-[571px]">
+            <h1 className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-bold leading-tight text-black">
+              1분만에 완성되는<br />나만의 강의 플랫폼
+            </h1>
+            <Link href="/auth/login">
+              <Button 
+                className="bg-primary hover:bg-primary/90 text-white text-lg md:text-2xl font-bold rounded-full px-6 py-3 md:px-8 md:py-4 self-start"
+              >
+                무료로 시작하기
+              </Button>
+            </Link>
+          </div>
 
-      {/* 다가오는 무료 라이브 */}
-      <section className="container mb-12">
-        <h3 className="text-xl font-bold mb-4">다가오는 무료 라이브</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {upcomingLive.map((course) => (
-            <CourseCard
-              key={course.id}
-              id={course.id}
-              title={course.title}
-              lecturer={course.lecturer}
-              price={course.price}
-              thumbnail={course.thumbnail_img || undefined}
-              rating={course.rating}
-              studentsTotal={course.students_total}
-            />
-          ))}
+          {/* Main Image */}
+          <div className="w-full md:flex-1 mt-8 md:mt-0">
+            <div className="relative w-full aspect-[4/3] md:aspect-[4/3]">
+              <Image 
+                src="/images/main-image.png" 
+                alt="강의 플랫폼 대시보드 미리보기" 
+                fill
+                sizes="(max-width: 768px) 100vw, 30vw"
+                priority
+                className="object-cover rounded-[20px] md:rounded-[40px] shadow-lg"
+              />
+            </div>
+          </div>
         </div>
-      </section>
-
-      {/* 프리미엄 강의 */}
-      <section className="container mb-12">
-        <h3 className="text-xl font-bold mb-4">프리미엄 강의</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {premium.map((course) => (
-            <CourseCard
-              key={course.id}
-              id={course.id}
-              title={course.title}
-              lecturer={course.lecturer}
-              price={course.price}
-              thumbnail={course.thumbnail_img || undefined}
-              rating={course.rating}
-              studentsTotal={course.students_total}
-            />
-          ))}
-        </div>
-      </section>
-
-      {/* 종료된 라이브 */}
-      <section className="container mb-12">
-        <h3 className="text-xl font-bold mb-4">종료된 라이브</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {endedLive.map((course) => (
-            <CourseCard
-              key={course.id}
-              id={course.id}
-              title={course.title}
-              lecturer={course.lecturer}
-              price={course.price}
-              thumbnail={course.thumbnail_img || undefined}
-              rating={course.rating}
-              studentsTotal={course.students_total}
-            />
-          ))}
-        </div>
-      </section>
-
-      {/* 하단 푸터(생략 가능) */}
-      <footer className="bg-black text-white py-10 mt-10 text-center text-sm opacity-80">
-        <div>© 2025 버티러닝. All rights reserved.</div>
-      </footer>
-    </div>
+      </div>
+    </main>
   )
-}
+} 
