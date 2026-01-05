@@ -20,7 +20,7 @@ export default function CreateClassPage() {
     try {
       // 여기에 사이트 생성 API 호출 로직 구현
       // const response = await fetch('/api/create-site', {...})
-      
+
       // 성공 시 대시보드로 리디렉션
       router.push('/dashboard')
     } catch (err) {
@@ -37,15 +37,15 @@ export default function CreateClassPage() {
       <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-8 md:p-16">
         <div className="w-full max-w-md">
           <div className="flex justify-center mb-12">
-            <Image 
-              src="/images/cohortclass-logo.svg" 
-              alt="버티컬러닝 로고" 
-              width={120} 
+            <Image
+              src="/images/cohortclass-logo.svg"
+              alt="버티컬러닝 로고"
+              width={120}
               height={40}
               priority
             />
           </div>
-          
+
           <div className="text-center mb-8">
             <div className="flex justify-center space-x-2 mb-4">
               <div className="w-16 h-1 bg-blue-500 rounded"></div>
@@ -53,7 +53,7 @@ export default function CreateClassPage() {
             </div>
             <h1 className="text-2xl font-bold text-gray-900">사이트 개설하기</h1>
           </div>
-          
+
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">서비스명</label>
@@ -66,7 +66,7 @@ export default function CreateClassPage() {
                 required
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">내 라이브클래스 주소</label>
               <div className="flex">
@@ -83,7 +83,7 @@ export default function CreateClassPage() {
                 </span>
               </div>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">추천인 코드 (선택)</label>
               <input
@@ -94,11 +94,11 @@ export default function CreateClassPage() {
                 placeholder="추천인으로부터 받은 코드를 입력해 주세요"
               />
             </div>
-            
+
             {error && (
               <div className="text-red-600 text-sm text-center">{error}</div>
             )}
-            
+
             <button
               type="submit"
               disabled={isLoading}
@@ -109,7 +109,7 @@ export default function CreateClassPage() {
           </form>
         </div>
       </div>
-      
+
       {/* 오른쪽 섹션: 설명 & 일러스트레이션 */}
       <div className="w-full md:w-1/2 bg-blue-100 flex flex-col items-center justify-center p-8 md:p-16">
         <div className="max-w-lg text-center mb-12">
@@ -117,13 +117,13 @@ export default function CreateClassPage() {
             모든 지식을 비즈니스로 바꿔보세요
           </h2>
           <p className="text-xl text-gray-700">
-            나만의 온라인 비즈니스 사이트, 라이브클래스
+            나만의 온라인 비즈니스 사이트, 코호트클래스
           </p>
         </div>
-        
+
         <div className="relative w-full max-w-md aspect-square">
           <Image
-            src="/images/main-image.png"
+            src="/images/professional-education-business.png"
             alt="비즈니스 일러스트레이션"
             fill
             className="object-contain"

@@ -1,6 +1,6 @@
 'use client'
 
-import { createClient } from '@/lib/supabase/client'
+import { authClient } from '@/lib/auth-client'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 
@@ -8,9 +8,13 @@ export function LogoutButton() {
   const router = useRouter()
 
   const logout = async () => {
-    const supabase = createClient()
-    await supabase.auth.signOut()
-    router.push('/')
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/auth/login"); // redirect to login page
+        },
+      },
+    });
   }
 
   return <Button onClick={logout} variant="outline" size="sm" className="font-bold">로그아웃</Button>

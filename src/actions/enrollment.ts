@@ -1,10 +1,14 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { auth } from '@/lib/auth'
+import { headers } from 'next/headers'
 
 export async function enrollInClass(userId: string, classId: string) {
+  const session = await auth.api.getSession({ headers: headers() })
+  if (!session || session.user.id !== userId) return { error: 'Unauthorized' }
   const supabase = await createClient()
-  
+
   const { data, error } = await supabase
     .from('enrollments')
     .insert([
@@ -21,8 +25,10 @@ export async function enrollInClass(userId: string, classId: string) {
 }
 
 export async function getEnrollmentsByUser(userId: string) {
+  const session = await auth.api.getSession({ headers: headers() })
+  if (!session || session.user.id !== userId) return { error: 'Unauthorized' }
   const supabase = await createClient()
-  
+
   const { data, error } = await supabase
     .from('enrollments')
     .select(`
@@ -40,7 +46,7 @@ export async function getEnrollmentsByUser(userId: string) {
 
 export async function getEnrollmentsByClass(classId: string) {
   const supabase = await createClient()
-  
+
   const { data, error } = await supabase
     .from('enrollments')
     .select(`

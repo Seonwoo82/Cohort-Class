@@ -2,17 +2,19 @@
 
 import { createClient } from '@/lib/supabase/server'
 import type { Database } from "@/types/supabase"
+import { auth } from "@/lib/auth"
+import { headers } from "next/headers"
 
 type ClassType = Database["public"]["Tables"]["class"]["Row"]
 
 export async function getClasses() {
   const supabase = await createClient()
   const { data: classes, error } = await supabase.from('class').select('*')
-  
+
   if (error) {
     return { error: error.message }
   }
-  
+
   return { classes }
 }
 
@@ -23,11 +25,11 @@ export async function getClassById(id: string) {
     .select('*')
     .eq('id', id)
     .single()
-  
+
   if (error) {
     return { error: error.message }
   }
-  
+
   return { classData }
 }
 
@@ -39,17 +41,25 @@ export async function getRelatedClasses(lecturer: string, currentClassId: string
     .eq('lecturer', lecturer)
     .neq('id', currentClassId)
     .limit(2)
-  
+
   if (error) {
     return { error: error.message }
   }
-  
+
   return { relatedClasses }
 }
 
 export async function enrollInClass(studentId: string, classId: string) {
+  const session = await auth.api.getSession({
+    headers: headers()
+  })
+
+  if (!session || session.user.id !== studentId) {
+    return { error: 'Unauthorized' }
+  }
+
   const supabase = await createClient()
-  
+
   const { data, error } = await supabase
     .from('enrollment')
     .insert([
@@ -68,7 +78,7 @@ export async function enrollInClass(studentId: string, classId: string) {
     .select('students_total')
     .eq('id', classId)
     .single()
-    
+
   if (classData) {
     const newTotal = (classData.students_total || 0) + 1
     await supabase
@@ -88,11 +98,11 @@ export async function checkEnrollment(userId: string, classId: string) {
     .eq('student_id', userId)
     .eq('class_id', classId)
     .single()
-  
+
   if (error && error.code !== 'PGRST116') {
     return { error: error.message }
   }
-  
+
   return { isEnrolled: !!data }
 }
 
@@ -102,16 +112,16 @@ export async function closeClass(classId: string) {
     .from('class')
     .update({ students_max: 0 })
     .eq('id', classId)
-    
+
   if (error) {
     return { error: error.message }
   }
-  
+
   return { success: true }
 }
 
 export async function updateClass(
-  classId: string, 
+  classId: string,
   classData: {
     title?: string
     price?: number
@@ -125,15 +135,15 @@ export async function updateClass(
   }
 ) {
   const supabase = await createClient()
-  
+
   const { error } = await supabase
     .from('class')
     .update(classData)
     .eq('id', classId)
-    
+
   if (error) {
     return { error: error.message }
   }
-  
+
   return { success: true }
 } 

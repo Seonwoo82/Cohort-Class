@@ -1,39 +1,38 @@
 'use client'
 
-import { getCurrentUser } from '@/actions/auth'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { Bell, Menu, User as UserIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import { useEffect, useState } from 'react'
-import { useAuth } from '@/hooks/useAuth'
+import { useAuth } from '@/context/AuthContext'
 import { LogoutButton } from './login/logout-button'
 
 // User 타입 정의
-type User = {
-  id: string
-  email?: string
-  name?: string
-}
+// type User = {
+//   id: string
+//   email?: string
+//   name?: string
+// }
 
 export default function Navigation() {
-  const [user, setUser] = useState<User | null>(null)
-  const [error, setError] = useState<string | null>(null)
+  // const [user, setUser] = useState<User | null>(null)
+  // const [error, setError] = useState<string | null>(null)
 
-  const { signOut: useAuthSignOut, isLoading } = useAuth()
+  const { user, signOut: useAuthSignOut, isLoading } = useAuth()
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const { user, error } = await getCurrentUser()
-      if (error) {
-        setError(error)
-      } else if (user) {
-        setUser(user as User)
-      }
-    }
-    fetchUser()
-  }, [])
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     const { user, error } = await getCurrentUser()
+  //     if (error) {
+  //       setError(error)
+  //     } else if (user) {
+  //       setUser(user as User)
+  //     }
+  //   }
+  //   fetchUser()
+  // }, [])
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
@@ -96,8 +95,8 @@ export default function Navigation() {
                 고객지원
               </Link>
             </nav>
-            <Link href="/signup">
-              <Button 
+            <Link href="/auth/login">
+              <Button
                 className="bg-primary hover:bg-primary/90 text-white font-bold rounded-full px-6 py-3"
               >
                 무료로 시작하기
