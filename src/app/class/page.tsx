@@ -1,4 +1,7 @@
 import { CourseCard } from "@/components/CourseCard"
+
+export const dynamic = 'force-dynamic'
+
 import { getClasses } from "@/actions/class"
 import type { Database } from "@/types/supabase"
 import Image from "next/image"
@@ -15,10 +18,10 @@ function getSectionedClasses(classes: ClassType[]) {
 
 export default async function Home() {
   const { classes, error } = await getClasses()
-  
+
   if (error) return <div>데이터를 불러올 수 없습니다: {error}</div>
   if (!classes || classes.length === 0) return <div>아직 등록된 강의가 없습니다.</div>
-  
+
   const { upcomingLive, premium, endedLive } = getSectionedClasses(classes)
   const banner = upcomingLive[0] || classes[0]
 
