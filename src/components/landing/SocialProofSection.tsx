@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 
 export function SocialProofSection() {
     return (
-        <section className="py-24 bg-slate-50">
+        <section id="reviews" className="py-24 bg-slate-50">
             <div className="container px-4 md:px-6">
                 <div className="text-center mb-12">
                     <h2 className="text-2xl font-bold text-gray-900">

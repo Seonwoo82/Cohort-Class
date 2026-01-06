@@ -1,8 +1,7 @@
-'use client'
-
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
+import { LeadCollectionModal } from '@/components/landing/LeadCollectionModal'
 
 export function CTASection() {
     return (
@@ -15,12 +14,7 @@ export function CTASection() {
                     초기 비용 0원, 개발 지식 불필요. <br />
                     이미 100명 이상의 전문가들이 코호트 클래스와 함께 성장하고 있습니다.
                 </p>
-                <Link href="/auth/login">
-                    <Button size="lg" variant="secondary" className="text-lg px-8 py-6 rounded-full font-bold shadow-lg hover:shadow-xl transition-all h-auto">
-                        무료로 사이트 개설하기
-                        <ArrowRight className="ml-2 h-5 w-5" />
-                    </Button>
-                </Link>
+                <LeadCollectionModal triggerText="무료로 사이트 개설하기" variant="secondary" />
             </div>
         </section>
     )

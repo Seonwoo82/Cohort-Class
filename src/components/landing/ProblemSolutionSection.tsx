@@ -5,7 +5,7 @@ import { Check, X } from 'lucide-react'
 
 export function ProblemSolutionSection() {
     return (
-        <section className="py-24 bg-white">
+        <section id="solution" className="py-24 bg-white">
             <div className="container px-4 md:px-6">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-900 mb-4">

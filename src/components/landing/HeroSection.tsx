@@ -1,10 +1,10 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
+import { LeadCollectionModal } from '@/components/landing/LeadCollectionModal'
 
 export function HeroSection() {
     return (
@@ -26,12 +26,7 @@ export function HeroSection() {
                             개발자도, 엑셀도 필요 없습니다. 원클릭으로 사이트를 개설하고 자동화된 수강생 관리를 경험해보세요.
                         </p>
                         <div className="flex items-center justify-center lg:justify-start gap-4">
-                            <Link href="/auth/login">
-                                <Button size="lg" className="text-lg px-8 py-6 rounded-full font-bold shadow-lg hover:shadow-xl transition-all h-auto">
-                                    무료로 시작하기
-                                    <ArrowRight className="ml-2 h-5 w-5" />
-                                </Button>
-                            </Link>
+                            <LeadCollectionModal triggerText="무료로 시작하기" variant="primary" />
                         </div>
                     </motion.div>
 

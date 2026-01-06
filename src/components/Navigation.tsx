@@ -8,6 +8,7 @@ import Image from "next/image"
 import { useEffect, useState } from 'react'
 import { useAuth } from '@/context/AuthContext'
 import { LogoutButton } from './login/logout-button'
+import { LeadCollectionModal } from '@/components/landing/LeadCollectionModal'
 
 // User 타입 정의
 // type User = {
@@ -85,23 +86,20 @@ export default function Navigation() {
               <Link href="#features" className="font-bold text-black text-base hover:text-primary transition-colors">
                 주요 기능
               </Link>
-              <Link href="#services" className="font-bold text-black text-base hover:text-primary transition-colors">
-                서비스
+              <Link href="#solution" className="font-bold text-black text-base hover:text-primary transition-colors">
+                서비스 소개
               </Link>
-              <Link href="#pricing" className="font-bold text-black text-base hover:text-primary transition-colors">
-                가격안내
-              </Link>
-              <Link href="#support" className="font-bold text-black text-base hover:text-primary transition-colors">
-                고객지원
+              <Link href="#reviews" className="font-bold text-black text-base hover:text-primary transition-colors">
+                고객 후기
               </Link>
             </nav>
-            <Link href="/auth/login">
+            <LeadCollectionModal>
               <Button
-                className="bg-primary hover:bg-primary/90 text-white font-bold rounded-full px-6 py-3"
+                className="bg-primary hover:bg-primary/90 text-white font-bold rounded-full px-6 py-3 shadow"
               >
                 무료로 시작하기
               </Button>
-            </Link>
+            </LeadCollectionModal>
           </div>
           {/* 모바일 메뉴 버튼 */}
           <div className="md:hidden">
